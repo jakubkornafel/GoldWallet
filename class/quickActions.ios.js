@@ -1,15 +1,14 @@
 import QuickActions from 'react-native-quick-actions';
-const loc = require('../loc');
+const loc = require('../loc/index');
 
 export default class DeviceQuickActions {
   static shared = new DeviceQuickActions();
   wallets;
 
-  async setQuickActions() {
+  static async setQuickActions() {
     if (DeviceQuickActions.shared.wallets === undefined) {
       return;
     }
-
     QuickActions.isSupported((error, supported) => {
       if (supported && error === null) {
         let shortcutItems = [];
@@ -17,7 +16,10 @@ export default class DeviceQuickActions {
           shortcutItems.push({
             type: 'Wallets', // Required
             title: wallet.getLabel(), // Optional, if empty, `type` will be used instead
-            subtitle: wallet.hideBalance ? '' : `${loc.formatBalance(Number(wallet.getBalance()), wallet.getPreferredBalanceUnit(), true)}`,
+            // subtitle:
+            //   wallet.hideBalance || wallet.getBalance() <= 0
+            //     ? ''
+            //     : loc.formatBalance(Number(wallet.getBalance()), wallet.getPreferredBalanceUnit(), true),
             userInfo: {
               url: `bluewallet://wallet/${wallet.getID()}`, // Provide any custom data like deep linking URL
             },

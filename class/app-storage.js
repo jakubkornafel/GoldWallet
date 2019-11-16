@@ -296,7 +296,8 @@ export class AppStorage {
           await this.saveToDisk();
         };
         await WatchConnectivity.shared.sendWalletsToWatch(this.wallets);
-        DeviceQuickActions.shared.setQuickActions();
+        DeviceQuickActions.shared.wallets = this.wallets;
+        DeviceQuickActions.setQuickActions();
         return true;
       } else {
         return false; // failed loading data or loading/decryptin data
@@ -373,7 +374,9 @@ export class AppStorage {
     }
     WatchConnectivity.shared.wallets = this.wallets;
     WatchConnectivity.shared.tx_metadata = this.tx_metadata;
-    await WatchConnectivity.shared.sendWalletsToWatch();
+    WatchConnectivity.shared.sendWalletsToWatch();
+    DeviceQuickActions.shared.wallets = this.wallets;
+    DeviceQuickActions.setQuickActions();
     return this.setItem('data', JSON.stringify(data));
   }
 
