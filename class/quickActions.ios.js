@@ -1,5 +1,5 @@
 import QuickActions from 'react-native-quick-actions';
-const loc = require('../loc/index');
+// const loc = require('../loc/index');
 
 export default class DeviceQuickActions {
   static shared = new DeviceQuickActions();
